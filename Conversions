@@ -1,0 +1,53 @@
+string a = "10.11";
+
+double total = 0.0;
+double total2 = 0.0;
+double total3 = 0.0;
+
+
+int startAt = a.IndexOf('.');
+
+if (startAt >= 0)
+{
+    for (int i = startAt + 1, power = -1; i < a.Length; ++i, --power)
+    {
+        total2 += CharToDigit(a[i]) * Math.Pow(16, power);
+        total3 += CharToDigit(a[i]) * Math.Pow(2, power);
+
+    }
+
+    for (int i = startAt + 1, power = -1; i < a.Length; ++i, --power)
+    {
+        // we ignore all but 1's
+        if (a[i] != '1')
+            continue;
+        else
+        {
+            total += Math.Pow(2.0, power); //bin to dec
+        }
+
+    }//fraction
+
+    string[] parts = a.Split('.');
+    int x = 0;
+
+    if (parts[x].Contains(".") == false)
+    {
+        string value = parts[x];
+   
+        //Dont know why this is resulting to this, it should be binary to x
+        Console.WriteLine(Convert.ToInt64(value, 2) + total); //binary to dec
+        Console.WriteLine(Convert.ToInt64(value, 16) + total2); //dec to hex
+        Console.WriteLine(Convert.ToInt64(value, 8) + total3); //octal to decimal
+        x+=1;
+
+    }
+
+}
+
+
+static int CharToDigit(char value) =>
+    value >= '0' && value <= '9' ? value - '0'
+  : value >= 'a' && value <= 'z' ? value - 'a' + 10
+  : value >= 'A' && value <= 'Z' ? value - 'A' + 10
+  : -1;
